@@ -1,0 +1,27 @@
+# Username is admin password is changeme
+splunk:
+  image: outcoldman/splunk
+  container_name: splunk
+  environment:
+    - 'SPLUNK_START_ARGS=--accept-license --answer-yes --no-prompt'
+  ports:
+    - '8080:8000'
+  volumes:
+    - ./inputs.conf:/opt/splunk/etc/system/local/inputs.conf
+    - ./props.conf:/opt/splunk/etc/system/local/props.conf
+    - ./.ui_login:/opt/splunk/etc/.ui_login
+    - ./user-prefs.conf:/opt/splunk/etc/users/admin/user-prefs/local/user-prefs.conf
+
+fluentd:
+  image: silverbp/splunk-forwarder
+  container_name: fluentd
+  ports:
+    - '24224:24224'
+  volumes:
+    - ./fluent.conf:/fluentd/etc/fluent.conf
+    - /var/lib/docker/containers:/var/lib/docker/containers
+    - /var/run/docker.sock:/var/run/docker.sock
+  links:
+    - splunk
+
+
