@@ -1,6 +1,6 @@
 # Username is admin password is changeme
 splunk:
-  image: outcoldman/splunk
+  image: johnsandiford/splunk
   container_name: splunk
   environment:
     - 'SPLUNK_START_ARGS=--accept-license --answer-yes --no-prompt'
